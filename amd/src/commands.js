@@ -56,4 +56,4 @@ export const getSetup = async() => {
             onAction: () => handleAction(editor),
         });
     };
-}; 
+};

@@ -3,4 +3,4 @@ import {getSetup} from './commands';
 
 export default {
     getSetup,
-}; 
+};
