@@ -33,4 +33,4 @@ export const configure = (instanceConfig) => {
         toolbar: addToolbarButton(instanceConfig.toolbar, 'content', buttonName),
         menu: addMenubarItem(instanceConfig.menu, 'insert', buttonName),
     };
-}; 
+};
