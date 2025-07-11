@@ -62,21 +62,23 @@ export async function handleAction(editor) {
                 return;
             }
 
-            // Call backend to get/proxy the link.
+            // Call backend to create the link.
             try {
                 const response = await fetch(M.cfg.wwwroot + '/local/linkproxy/rest.php', {
                     method: 'POST',
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'},
                     body: new URLSearchParams({
-                        action: 'get_dbvals',
-                        accessionnumber,
+                        action: 'upsert_link',
+                        an: accessionnumber,
                         contextid: M.cfg.contextid
                     })
                 });
                 const responseData = await response.json();
-                if (responseData && responseData.result && responseData.result.url) {
+                if (responseData && responseData.result) {
+                    // Create the proxy URL using the returned hash.
+                    const proxyUrl = M.cfg.wwwroot + '/local/linkproxy/rest.php?action=get_link&hash=' + responseData.result;
                     // Insert the link into the editor.
-                    editor.insertContent(`<a href="${responseData.result.url}" target="_blank">${linktext}</a>`);
+                    editor.insertContent(`<a href="${proxyUrl}" target="_blank">${linktext}</a>`);
                     api.close();
                 } else {
                     window.alert('Failed to create link.');
