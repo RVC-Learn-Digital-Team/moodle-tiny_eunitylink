@@ -5,3 +5,4 @@ $string['dialogtitle'] = 'Insert eUnity link';
 $string['linktext'] = 'Link text';
 $string['accessionnumber'] = 'Accession number';
 $string['createlink'] = 'Create link'; 
+$string['pluginname'] = 'Eunitylink TinyMCE-Editor';
