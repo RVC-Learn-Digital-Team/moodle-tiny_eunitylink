@@ -1,4 +1,22 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-  <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
-  <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
-</svg> 
+<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <!-- Light blue lowercase "e" in upper left quadrant -->
+  <text x="15" y="35" font-family="Arial, sans-serif" font-size="36" font-weight="normal" fill="#00A99D">e</text>
+  
+  <!-- Dark blue lowercase "u" in lower right quadrant -->
+  <text x="65" y="80" font-family="Arial, sans-serif" font-size="36" font-weight="normal" fill="#005BAC">u</text>
+  
+  <!-- Light green hyperlink symbol from bottom left to top right -->
+  <g fill="#8BC43F" stroke="#8BC43F" stroke-width="2">
+    <!-- Chain link 1 (bottom left) -->
+    <ellipse cx="25" cy="75" rx="8" ry="5" transform="rotate(-45 25 75)" fill="none" stroke-width="3"/>
+    
+    <!-- Chain link 2 (middle) -->
+    <ellipse cx="40" cy="60" rx="8" ry="5" transform="rotate(-45 40 60)" fill="none" stroke-width="3"/>
+    
+    <!-- Chain link 3 (top right) -->
+    <ellipse cx="75" cy="25" rx="8" ry="5" transform="rotate(-45 75 25)" fill="none" stroke-width="3"/>
+    
+    <!-- Connecting elements -->
+    <ellipse cx="55" cy="42" rx="8" ry="5" transform="rotate(-45 55 42)" fill="none" stroke-width="3"/>
+  </g>
+</svg>
