@@ -80,7 +80,7 @@ export async function handleAction(editor) {
                 const jsonStart = responseText.indexOf('{');
                 const jsonText = jsonStart >= 0 ? responseText.substring(jsonStart) : responseText;
                 const responseData = JSON.parse(jsonText);
-                
+
                 if (responseData && responseData.result) {
                     // Create the proxy URL using the returned hash.
                     const proxyUrl = M.cfg.wwwroot + '/local/linkproxy/rest.php?action=get_link&hash=' + responseData.result;
