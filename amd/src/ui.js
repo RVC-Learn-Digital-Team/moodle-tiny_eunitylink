@@ -18,27 +18,23 @@ export async function handleAction(editor) {
     // Get current selection for default link text.
     const selectedText = editor.selection ? editor.selection.getContent({format: 'text'}) : '';
 
-    // Create dialog HTML.
-    const dialogHtml = `
-        <form id="eunitylink-form" class="tiny-eunitylink-form">
-            <div class="form-group">
-                <label>${linktextLabel}</label>
-                <input type="text" name="linktext" class="form-control" value="${selectedText}" required />
-            </div>
-            <div class="form-group">
-                <label>${accessionLabel}</label>
-                <input type="text" name="accessionnumber" class="form-control" required />
-            </div>
-        </form>
-    `;
-
-    // Show TinyMCE dialog.
+    // Show TinyMCE dialog with proper form components.
     editor.windowManager.open({
         title,
         body: {
             type: 'panel',
             items: [
-                {type: 'htmlpanel', html: dialogHtml}
+                {
+                    type: 'input',
+                    name: 'linktext',
+                    label: linktextLabel,
+                    value: selectedText,
+                },
+                {
+                    type: 'input',
+                    name: 'accessionnumber',
+                    label: accessionLabel,
+                }
             ]
         },
         buttons: [
@@ -52,16 +48,20 @@ export async function handleAction(editor) {
                 primary: true
             }
         ],
-        initialData: {},
+        initialData: {
+            linktext: selectedText,
+            accessionnumber: ''
+        },
         onSubmit: async (api) => {
-            // Get form values from DOM.
-            const form = document.querySelector('#eunitylink-form');
-            const linktext = form.linktext.value.trim();
-            const accessionnumber = form.accessionnumber.value.trim();
+            const data = api.getData();
+            const linktext = data.linktext.trim();
+            const accessionnumber = data.accessionnumber.trim();
+            
             if (!linktext || !accessionnumber) {
                 // Optionally show error
                 return;
             }
+            
             // Call backend to get/proxy the link.
             try {
                 const response = await fetch(M.cfg.wwwroot + '/local/linkproxy/rest.php', {
@@ -73,10 +73,10 @@ export async function handleAction(editor) {
                         contextid: M.cfg.contextid
                     })
                 });
-                const data = await response.json();
-                if (data && data.result && data.result.url) {
+                const responseData = await response.json();
+                if (responseData && responseData.result && responseData.result.url) {
                     // Insert the link into the editor.
-                    editor.insertContent(`<a href="${data.result.url}" target="_blank">${linktext}</a>`);
+                    editor.insertContent(`<a href="${responseData.result.url}" target="_blank">${linktext}</a>`);
                     api.close();
                 } else {
                     window.alert('Failed to create link.');
