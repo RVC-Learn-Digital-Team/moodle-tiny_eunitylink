@@ -56,12 +56,12 @@ export async function handleAction(editor) {
             const data = api.getData();
             const linktext = data.linktext.trim();
             const accessionnumber = data.accessionnumber.trim();
-            
+
             if (!linktext || !accessionnumber) {
                 // Optionally show error
                 return;
             }
-            
+
             // Call backend to get/proxy the link.
             try {
                 const response = await fetch(M.cfg.wwwroot + '/local/linkproxy/rest.php', {
