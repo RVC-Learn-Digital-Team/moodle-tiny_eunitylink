@@ -62,18 +62,25 @@ export async function handleAction(editor) {
                 return;
             }
 
-            // Call backend to create the link.
+            // Call backend to create the link using the same format as Atto plugin.
             try {
-                const formData = new FormData();
-                formData.append('action', 'upsert_link');
-                formData.append('an', accessionnumber);
-                formData.append('contextid', M.cfg.contextid);
-
                 const response = await fetch(M.cfg.wwwroot + '/local/linkproxy/rest.php', {
                     method: 'POST',
-                    body: formData
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: new URLSearchParams({
+                        action: 'upsert_link',
+                        an: accessionnumber,
+                        contextid: M.cfg.contextid
+                    })
                 });
-                const responseData = await response.json();
+                const responseText = await response.text();
+                // Parse JSON after potential deprecation warnings
+                const jsonStart = responseText.indexOf('{');
+                const jsonText = jsonStart >= 0 ? responseText.substring(jsonStart) : responseText;
+                const responseData = JSON.parse(jsonText);
+                
                 if (responseData && responseData.result) {
                     // Create the proxy URL using the returned hash.
                     const proxyUrl = M.cfg.wwwroot + '/local/linkproxy/rest.php?action=get_link&hash=' + responseData.result;
@@ -84,7 +91,7 @@ export async function handleAction(editor) {
                     window.alert('Failed to create link.');
                 }
             } catch (e) {
-                window.alert('Error contacting backend.');
+                window.alert('Error contacting backend: ' + e.message);
             }
         }
     });
